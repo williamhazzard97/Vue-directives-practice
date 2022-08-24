@@ -1,11 +1,18 @@
 <template>
   <div class="hello">
     <div class="holder">
+      <!-- Calling a custom method called 'addSkill' from the component logic and 'preventing' a page reload before the method executes,
+      then using v-model to take input from user and put into 'skills' array -->
+      <form @submit.prevent="addSkill">
+        <input type="text" placeholder="Enter a skill you have.." v-model="skill">
+        {{skill}}
+      </form>
+      
       <!-- Using v-for to loop through predifined 'skills' array -->
       <div>
         <ul>
           <li v-for="(data, index) in skills" :key= 'index'>
-            {{index}}. {{data.skill}}
+            <h2>{{data.skill}}</h2>
           </li>
         </ul>
       </div>
@@ -14,8 +21,8 @@
 
       <!-- Using v-if="" and v-else directive to test for a condition and produce the correct output to a specific html tag -->
       <div>
-        <h2 v-if="skills.length >= 1">You got skills man!</h2>
-        <h2 v-else>Time to skill up!</h2>
+        <h4 v-if="skills.length >= 1">You got skills man!</h4>
+        <h4 v-else>Time to skill up!</h4>
       </div>
 
       <br>
@@ -40,6 +47,7 @@ export default {
   name: 'DirectivesPractice',
     data() {
       return {
+        skill: '',
         skills: [
           { "skill": "Vue.js"},
           { "skill": "Frontend Developer"},
@@ -57,6 +65,12 @@ export default {
         color: '#ffffff',
         margin: 'auto',
       }      
+    },
+    methods: {
+      addSkill() {
+        this.skills.push({skill: this.skill});
+        this.skill = '';
+      }
     }
 }
 </script>
