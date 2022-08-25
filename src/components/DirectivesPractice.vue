@@ -23,13 +23,15 @@
       <div>
         <h4 v-if="skills.length >= 1">You got skills man!</h4>
         <h4 v-else>Time to skill up!</h4>
+        <br>
+        <button v-on:click="clearSkills">Clear Skills List</button>
       </div>
 
       <br>
       
       <!-- Using v-bind:class to add one or more classes to a specific html tag -->
       <div v-bind:class="{ alert: showAlert, 'anotherClass': anotherClass}">
-        V-bind class
+        v-bind class
       </div>
 
       <br>
@@ -38,6 +40,25 @@
       <div v-bind:style="{ backgroundColor: bgColor, width: bgWidth, height: bgHeight, opacity: opacity, color: color, margin: margin}">
         v-bind styles
       </div>
+
+      <!-- Using v-on:click to call custom methods on 'click events' with parameters passed to those methods -->
+      <button v-on:click="addCounter(1)">Increase</button>
+      
+      <button v-on:click="subCounter(1)">Decrease</button>
+      <br>
+      <button v-on:click="addCounter(10)">Increase by 10</button>
+      
+      <button v-on:click="subCounter(10)">Decrease by 10</button>
+
+      <p>Counter: {{ counter }} </p>
+    </div>
+
+    <!-- Using v-on:mousemove to listen for mouse movements 
+    and provide x and y coordinates of the mouse position from the browsers event properties-->
+    <div id="canvas" v-on:mousemove="updateXY">
+      x-axis: {{x}}
+      <br>
+      y-axis: {{y}}
     </div>
   </div>
 </template>
@@ -46,6 +67,7 @@
 export default {
   name: 'DirectivesPractice',
     data() {
+      
       return {
         skill: '',
         skills: [
@@ -56,7 +78,9 @@ export default {
 
         showAlert: true,
         anotherClass: true,
-
+        counter: 0,
+        x: 0,
+        y: 0,
 
         bgColor: '#000fff',
         bgWidth: '80%',
@@ -64,12 +88,25 @@ export default {
         opacity: 0.8,
         color: '#ffffff',
         margin: 'auto',
-      }      
+      }
     },
     methods: {
       addSkill() {
         this.skills.push({skill: this.skill});
         this.skill = '';
+      },
+      clearSkills(){
+        this.skills = [];
+      },
+      addCounter(inc) {
+        this.counter += inc;
+      },
+      subCounter(dec) {
+        this.counter -= dec;
+      },
+      updateXY(event) {
+        this.x = event.offsetX;
+        this.y = event.offsetY;
       }
     }
 }
@@ -104,5 +141,13 @@ a {
 
 .anotherClass {
   border: 3px solid black;
+}
+
+#canvas {
+  width: 600px;
+  padding: 200px 20px;
+  text-align: center;
+  border: 1px solid #333;
+  margin: auto;
 }
 </style>
